@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>$(TemplateTargetPackageFramework)</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="$(TemplateOrchardPackageVersion)" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="$(TemplateOrchardPackageVersion)" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="$(TemplateOrchardPackageVersion)" />
+    <PackageReference Include="OrchardCore.ResourceManagement" Version="$(TemplateOrchardPackageVersion)" />
+  </ItemGroup>
+
+</Project>

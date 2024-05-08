@@ -1,0 +1,31 @@
+@page
+@model ListModel
+@using OrchardCore.Demo.Pages
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using OrchardCore.DisplayManagement
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Display
+@using OrchardCore.DisplayManagement.ModelBinding
+@using OrchardCore.ContentManagement.Records
+@using YesSql
+
+
+@await Html.PartialAsync("Header", Model)
+<h2>Hello from @ViewContext.RouteData.Values["page"]</h2>
+
+<ul class="list-group">
+    <li class="list-group-item">
+        <form asp-page="/Foo/List" method="post" class="no-multisubmit">
+            <input asp-for="Text" />
+            <button class="btn btn-sm btn-primary" type="submit">Add</button>
+        </form>
+    </li>
+    @foreach (dynamic item in Model.Items)
+    {
+        <li class="list-group-item">
+            @item.ContentItem.Content.TestContentPartA.Line
+            <a asp-page="/Foo/Admin/Edit" asp-route-id="@item.ContentItem.ContentItemId"
+               class="btn btn-warning btn-sm float-end">Manage</a>
+        </li>
+    }
+</ul>

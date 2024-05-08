@@ -1,0 +1,128 @@
+@using OrchardCore.Mvc.Utilities
+@using OrchardCore.ContentManagement.Metadata.Settings
+@using OrchardCore.ContentManagement.Metadata.Models
+@using OrchardCore.DisplayManagement
+
+@model EditFieldViewModel
+
+@inject OrchardCore.DisplayManagement.Theming.IThemeManager ThemeManager
+@inject OrchardCore.DisplayManagement.Descriptors.IShapeTableManager ShapeTableManager
+
+@{
+    var theme = await ThemeManager.GetThemeAsync();
+    var shapeTable = await ShapeTableManager.GetShapeTableAsync(theme?.Id);
+    var editorShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.PartFieldDefinition.FieldDefinition.Name + "_Option__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.PartFieldDefinition.FieldDefinition.Name + "_Option", StringComparison.OrdinalIgnoreCase));
+    var displayShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.PartFieldDefinition.FieldDefinition.Name + "_DisplayOption__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.PartFieldDefinition.FieldDefinition.Name + "_DisplayOption", StringComparison.OrdinalIgnoreCase));
+    var returnUrl = ViewData["returnUrl"]?.ToString();
+}
+
+<zone Name="Title"><h1>@RenderTitleSegments(T["\"{0}\" settings for \"{1}\"", Model.DisplayName, Model.PartFieldDefinition.PartDefinition.DisplayName()])</h1></zone>
+
+<form asp-action="EditField" asp-route-returnUrl="@ViewData["returnUrl"]">
+    @Html.ValidationSummary()
+    <div class="mb-3">
+        <div class="w-sm-75 w-lg-75 w-xl-50">
+            <label asp-for="DisplayName" class="form-label">@T["Display Name"]</label>
+            <input asp-for="DisplayName" autofocus class="form-control" />
+        </div>
+        <span class="hint">@T["Name of the field as it will be displayed in screens."]</span>
+    </div>
+
+    <div class="mb-3">
+        <div class="w-sm-75 w-lg-75 w-xl-50">
+            <label asp-for="Name" class="form-label">@T["Technical Name"]</label>
+            <input asp-for="Name" class="form-control" readonly />
+        </div>
+        <span class="hint">@T["Technical name of the field."]</span>
+    </div>
+
+    @if (Model.Shape.Shortcuts != null)
+    {
+        <div class="mb-3">
+            @await DisplayAsync(Model.Shape.Shortcuts)
+        </div>
+    }
+
+    @if (Model.Shape.Content != null)
+    {
+        <div class="mb-3">
+            @await DisplayAsync(Model.Shape.Content)
+        </div>
+
+        @if (editorShapes.Any())
+        {
+            <div class="mb-3">
+                <label asp-for="Editor" class="form-label">@T["What type of editor should be used?"]</label>
+                <select asp-for="Editor" class="form-select" id="field-editor-select">
+                    @foreach (var editorShape in editorShapes)
+                    {
+                        var shape = await Factory.CreateAsync(editorShape);
+                        shape.Properties["Editor"] = Model.Editor;
+                        @await DisplayAsync(shape)
+                    }
+                </select>
+            </div>
+        }
+
+        <div id="field-editor-container" class="mb-3" style="display: none">
+            @await DisplayAsync(Model.Shape.Editor)
+        </div>
+
+        @if (displayShapes.Any())
+        {
+            <div class="mb-3">
+                <label asp-for="DisplayMode" class="form-label">@T["What type of display mode should be used?"]</label>
+                <select asp-for="DisplayMode" class="form-select" id="field-display-select">
+                    @foreach (var displayShape in displayShapes)
+                    {
+                        var shape = await Factory.CreateAsync(displayShape);
+                        shape.Properties["DisplayMode"] = Model.DisplayMode;
+                        @await DisplayAsync(shape)
+                    }
+                </select>
+            </div>
+        }
+
+        <div id="field-display-container" class="mb-3" style="display: none">
+            @await DisplayAsync(Model.Shape.DisplayMode)
+        </div>
+    }
+
+    <div class="mb-3">
+        <button class="btn btn-primary save" type="submit" name="submit.Save" value="Save">@T["Save"]</button>
+        @if (Url.IsLocalUrl(returnUrl))
+        {
+            <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
+        }
+    </div>
+</form>
+
+<script at="Foot">
+    //<![CDATA[
+    $(function () {
+        $('.field-editor').hide();
+        $('#field-editor-container').show();
+        var fieldEditorSelect = $('#field-editor-select');
+        if (fieldEditorSelect.length > 0) {
+            $('.field-editor-' + fieldEditorSelect.val().toLowerCase()).show();
+
+            fieldEditorSelect.change(function () {
+                $('.field-editor').hide();
+                $('.field-editor-' + fieldEditorSelect.val().toLowerCase()).show();
+            });
+        }
+
+        $('.field-display').hide();
+        $('#field-display-container').show();
+        var fieldDisplaySelect = $('#field-display-select');
+        if (fieldDisplaySelect.length > 0) {
+            $('.field-display-' + fieldDisplaySelect.val().toLowerCase()).show();
+
+            fieldDisplaySelect.change(function () {
+                $('.field-display').hide();
+                $('.field-display-' + fieldDisplaySelect.val().toLowerCase()).show();
+            });
+        }
+    });
+    //]]>
+</script>

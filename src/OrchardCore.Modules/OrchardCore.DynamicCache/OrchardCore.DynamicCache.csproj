@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- NuGet properties-->
+    <Title>OrchardCore DynamicCache</Title>
+    <Description>$(OCFrameworkDescription)
+
+    Dynamic Cache Provides tag helpers to cache sections of markup.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreFramework Cache</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.DisplayManagement\OrchardCore.DisplayManagement.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.DynamicCache.Abstractions\OrchardCore.DynamicCache.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
+  </ItemGroup>
+
+</Project>

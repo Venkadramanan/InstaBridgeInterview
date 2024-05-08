@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>OrchardCore.Admin</RootNamespace>
+
+    <!-- NuGet properties-->
+    <Title>OrchardCore Admin Abstractions</Title>
+    <Description>$(OCCMSDescription)
+
+    Abstractions of OrchardCore Admin Module.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreCMS Abstractions</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrchardCore.Abstractions\OrchardCore.Abstractions.csproj" />
+    <ProjectReference Include="..\OrchardCore.Infrastructure.Abstractions\OrchardCore.Infrastructure.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+@model AdminIndexViewModel
+
+<zone Name="Title"><h1>@RenderTitleSegments(T["Settings"])</h1></zone>
+
+<form asp-action="Index" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post" enctype="multipart/form-data" class="no-multisubmit">
+      <input asp-for="GroupId" type="hidden" />
+    @Html.ValidationSummary()
+    @await DisplayAsync(Model.Shape)
+</form>

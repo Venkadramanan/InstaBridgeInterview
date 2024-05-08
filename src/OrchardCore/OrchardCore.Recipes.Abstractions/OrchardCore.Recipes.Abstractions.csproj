@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>OrchardCore.Recipes</RootNamespace>
+    <!-- NuGet properties-->
+    <Title>OrchardCore Recipes Abstractions</Title>
+    <Description>$(OCFrameworkDescription)
+
+    Abstractions for Recipes.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreFramework Abstractions</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrchardCore.Data.YesSql.Abstractions\OrchardCore.Data.YesSql.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <!-- NuGet properties-->
+    <Title>OrchardCore Deployment Core</Title>
+    <Description>$(OCCMSDescription)
+
+    Core Implementation for Deployment module.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreCMS</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrchardCore.Deployment.Abstractions\OrchardCore.Deployment.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

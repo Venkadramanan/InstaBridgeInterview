@@ -1,0 +1,56 @@
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Records
+@using YesSql
+
+@model OrchardCore.Taxonomies.Settings.TaxonomyFieldSettings
+
+@inject ISession Session
+
+@{
+    var taxonomies = await Session.Query<ContentItem, ContentItemIndex>().Where(x => x.ContentType == "Taxonomy" && x.Latest).ListAsync();
+}
+
+<div class="mb-3">
+    <div class="w-sm-75 w-lg-75 w-xl-50">
+        <label asp-for="Hint" class="form-label">@T["Hint"]</label>
+        <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
+    </div>
+    <span class="hint">@T["The hint text to display for this field on the editor."]</span>
+</div>
+
+<div class="mb-3">
+    <div class="w-sm-75 w-lg-75 w-xl-50">
+        <label asp-for="TaxonomyContentItemId" class="form-label">@T["Taxonomy"]</label>
+        <select asp-for="TaxonomyContentItemId" class="form-select">
+            <option value="">@T["Select a Taxonomy"]</option>
+            @foreach (var taxonomy in taxonomies)
+            {
+                <option value="@taxonomy.ContentItemId">@taxonomy</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
+        <span class="hint dashed">@T["Whether at least one element is selected."]</span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Unique" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="Unique">@T["Unique"]</label>
+        <span class="hint dashed">@T["Whether only one element can be selected."]</span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="LeavesOnly" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="LeavesOnly">@T["Leaves only"]</label>
+        <span class="hint dashed">@T["Whether leaves are the only items that can be selected."]</span>
+    </div>
+</div>

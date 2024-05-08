@@ -1,0 +1,34 @@
+@using OrchardCore.DisplayManagement
+@using OrchardCore.DisplayManagement.ModelBinding
+@using OrchardCore.Themes.Models
+
+@inject IDisplayManager<ThemeEntry> ThemeEntryDisplayManager
+@inject IUpdateModelAccessor UpdateModelAccessor
+
+@model SelectThemesViewModel
+
+<style asp-src="~/OrchardCore.Themes/Styles/themes.admin.css"></style>
+<zone Name="Title"><h1>@RenderTitleSegments(T["Themes"])</h1></zone>
+
+@if (!Model.Themes.Any())
+{
+    <p>@T["There are no themes installed."]</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var themeEntry in Model.Themes)
+        {
+            <div class="col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+                @await DisplayAsync(await ThemeEntryDisplayManager.BuildDisplayAsync(themeEntry, UpdateModelAccessor.ModelUpdater, "SummaryAdmin"))
+            </div>
+        }
+    </div>
+
+    <div class="alert alert-danger">
+        <h4>@T["Reset current themes"]</h4>
+        <p>@T["The following actions reset the themes. It is used for sites that can't use theming."]</p>
+        <a asp-action="ResetSiteTheme" data-url-af="UnsafeUrl RemoveUrl" data-title="@T["Reset Site Theme"]" data-message="@T["Are you sure you want to reset the Site theme?"]" class="btn btn-danger">@T["Reset Site Theme"]</a>
+        <a asp-action="ResetAdminTheme" data-url-af="UnsafeUrl RemoveUrl" data-title="@T["Reset Admin Theme"]" data-message="@T["Are you sure you want to reset the Admin theme?"]" class="btn btn-danger">@T["Reset Admin Theme"]</a>
+    </div>
+}

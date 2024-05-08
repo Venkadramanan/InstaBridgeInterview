@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+     <!-- NuGet properties-->
+    <Title>OrchardCore Feeds</Title>
+    <Description>$(OCFrameworkDescription)
+
+    Feeds module adds RSS feeds capabilities.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreFramework RSS</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.DisplayManagement\OrchardCore.DisplayManagement.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Feeds.Core\OrchardCore.Feeds.Core.csproj" />
+  </ItemGroup>
+
+</Project>

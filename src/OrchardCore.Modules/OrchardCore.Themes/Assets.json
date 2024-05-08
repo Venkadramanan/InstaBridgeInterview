@@ -1,0 +1,8 @@
+[
+  {
+    "inputs": [
+      "Assets/scss/admin.scss"
+    ],
+    "output": "wwwroot/Styles/themes.admin.css"
+  }
+]

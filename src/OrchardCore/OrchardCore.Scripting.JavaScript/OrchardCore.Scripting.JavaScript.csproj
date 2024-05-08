@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- NuGet properties-->
+    <Title>OrchardCore Scripting JavaScript</Title>
+    <Description>$(OCFrameworkDescription)
+
+    Provides javascript scripting capabilities.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreFramework</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jint" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrchardCore.Infrastructure.Abstractions\OrchardCore.Infrastructure.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

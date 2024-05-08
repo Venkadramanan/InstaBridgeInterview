@@ -1,0 +1,66 @@
+@*
+    Main shape for Admin display types of MenuItem stereotype items, which is used to render
+    a menu item in the hierarchy editor.
+    It is recursive so that if the menu item has MenuItemsListPart the sub items will also
+    be rendered.
+*@
+
+@inject OrchardCore.ContentManagement.Display.IContentItemDisplayManager ContentItemDisplayManager
+@inject OrchardCore.DisplayManagement.ModelBinding.IUpdateModelAccessor ModelUpdaterAccessor
+
+@{
+    ContentItem contentItem = Model.ContentItem;
+    var menuItems = contentItem.As<MenuItemsListPart>();
+    var index = 0;
+}
+
+<li class="menu-item list-group-item" id="menu-id-@Model.Index" data-index="@Model.Index">
+    <div class="menu-item menu-item-title border rounded p-2 ps-3 mb-1 d-flex flex-row justify-content-between align-items-center">
+        @if (Model.Content != null)
+        {
+            @await DisplayAsync(Model.Content)
+        }
+        else
+        {
+            @*For dynamically created menus that do not have a driver*@
+            <span>@contentItem.DisplayText <span class="text-muted dashed">@contentItem.ContentType</span></span>
+        }
+        <div class="float-end">
+            <a asp-action="Edit"
+               asp-controller="Admin"
+               asp-route-area="OrchardCore.Menu"
+               asp-route-menuContentItemId="@Model.MenuPart.ContentItem.ContentItemId"
+               asp-route-menuItemId="@Model.ContentItem.ContentItemId"
+               class="btn btn-success btn-sm">
+                @T["Edit"]
+            </a>
+            <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#modalMenuItems" data-menuitemid="@Model.ContentItem.ContentItemId">
+                @T["Add"]
+            </button>
+            <a asp-action="Delete"
+               asp-controller="Admin"
+               asp-route-area="OrchardCore.Menu"
+               asp-route-menuContentItemId="@Model.MenuPart.ContentItem.ContentItemId"
+               asp-route-menuItemId="@Model.ContentItem.ContentItemId"
+               data-url-af="RemoveUrl UnsafeUrl"
+               class="btn btn-danger btn-sm">
+                @T["Delete"]
+            </a>
+        </div>
+    </div>
+
+    @if (menuItems != null)
+    {
+        var updater = ModelUpdaterAccessor.ModelUpdater;
+
+        <ol class="menu-item menu-item-links">
+            @foreach (var menuItem in menuItems.MenuItems)
+            {
+                var menuItemShape = await ContentItemDisplayManager.BuildDisplayAsync(menuItem, updater, "Admin");
+                menuItemShape.Properties["MenuPart"] = Model.MenuPart;
+                menuItemShape.Properties["Index"] = Model.Index + "-" + index++;
+                @await DisplayAsync(menuItemShape)
+            }
+        </ol>
+    }
+</li>

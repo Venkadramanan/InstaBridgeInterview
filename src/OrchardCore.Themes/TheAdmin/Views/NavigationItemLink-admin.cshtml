@@ -1,0 +1,68 @@
+@using OrchardCore.Localization
+@using OrchardCore.Navigation
+@{
+    // Morphing the shape to keep Model untouched.
+    Model.Metadata.Alternates.Clear();
+    Model.Metadata.Type = "NavigationItemText";
+
+    if (Model.Id != null)
+    {
+        Model.Metadata.Alternates.Add("NavigationItemText_Id__" + Model.Id);
+    }
+
+    TagBuilder tag = Tag(Model, "a");
+    tag.Attributes["id"] = null;
+
+    if (Model.Href == null || Model.Href.ToString() == "#")
+    {
+        tag.Attributes["href"] = "#m" + Model.GetHashCode().ToString();
+    }
+    else
+    {
+        tag.Attributes["href"] = Model.Href;
+    }
+
+    // Extract classes that are not icons from 'Model.Classes'.
+    var notIconClasses = ((IEnumerable<string>)Model.Classes)
+        .Where(c => !c.StartsWith(NavigationConstants.CssClassPrefix, StringComparison.OrdinalIgnoreCase))
+        .ToArray();
+
+    if (notIconClasses.Length > 0)
+    {
+        tag.Attributes["class"] = string.Join(' ', notIconClasses);
+    }
+    else
+    {
+        // This removes the class attribute on the li element when
+        // an empty class attribute gets rendered.
+        tag.Attributes.Remove("class");
+    }
+
+    tag.AddCssClass("item-label d-flex");
+
+    if (Model.HasItems)
+    {
+        tag.Attributes["data-bs-toggle"] = "collapse";
+        tag.Attributes["aria-expanded"] = "false";
+        tag.Attributes["aria-controls"] = "m" + Model.GetHashCode().ToString();
+        tag.TagRenderMode = TagRenderMode.Normal;
+
+        if ((bool)Model.Selected)
+        {
+            tag.Attributes["aria-expanded"] = "true";
+        }
+        else
+        {
+            tag.Attributes["aria-expanded"] = "false";
+        }
+    }
+
+    tag.InnerHtml.AppendHtml(await DisplayAsync(Model));
+
+    if (Model.HasItems)
+    {
+        tag.InnerHtml.AppendHtml(Html.Raw("<div class=\"btn-nostyle\"><span class=\"collapse-icon\"><i class=\"fas fa-chevron-" + (Orchard.CultureDir() == LanguageDirection.LTR ? "right" : "left") + " fa-xs chevron\"></i></span></div>"));
+    }
+}
+
+@tag

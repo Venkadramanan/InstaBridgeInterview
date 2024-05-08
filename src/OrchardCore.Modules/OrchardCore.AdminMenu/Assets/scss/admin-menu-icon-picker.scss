@@ -1,0 +1,21 @@
+@import "fontawesome-iconpicker";
+
+#iconPickerModal {
+
+    .iconpicker-item {
+        background-color: var(--bs-body-bg, #fff);
+    }
+
+    .iconpicker-popover.popover {
+        width: 100%;
+        border: none;
+    }
+
+    .iconpicker-items {
+        min-height: 258px;
+    }
+}
+
+.remove-icon, .sample-icon {
+    width: 40px;
+}

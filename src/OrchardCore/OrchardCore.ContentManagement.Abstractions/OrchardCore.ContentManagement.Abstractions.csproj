@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>OrchardCore.ContentManagement</RootNamespace>
+    <!-- NuGet properties-->
+    <Title>OrchardCore ContentManagement Abstractions</Title>
+    <Description>$(OCCMSDescription)
+
+    Abstractions for ContentManagement</Description>
+    <PackageTags>$(PackageTags) OrchardCoreCMS ContentManagement Abstractions</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrchardCore.Data.YesSql.Abstractions\OrchardCore.Data.YesSql.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
